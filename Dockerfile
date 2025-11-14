@@ -1,18 +1,19 @@
 FROM python:3.12
 WORKDIR /app
+
+
+RUN mkdir -p /tmp/numba_cache && chmod -R 777 /tmp/numba_cache
+ENV NUMBA_CACHE_DIR=/tmp/numba_cache
+ENV PYTHONUNBUFFERED=1
+
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy code
 COPY . .
 
-# Create numba cache directory
-RUN mkdir -p /tmp/numba_cache && \
-    chmod -R 777 /tmp/numba_cache && \
-    chmod -R g+rwX /app
-
-ENV PYTHONUNBUFFERED=1
-ENV NUMBA_CACHE_DIR=/tmp/numba_cache
+# Make app directory group-writable
+RUN chmod -R g+rwX /app
 
 EXPOSE 8000
 
