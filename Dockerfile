@@ -12,7 +12,8 @@ ENV TRANSFORMERS_CACHE=/tmp/huggingface_cache
 ENV PYTHONUNBUFFERED=1
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt \
+    && chmod -R a+r /usr/local/lib/python3.12/site-packages
 
 
 # Copy code
